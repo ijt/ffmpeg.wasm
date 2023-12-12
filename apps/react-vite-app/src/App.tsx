@@ -39,13 +39,18 @@ function App() {
     const videoURL = "/IMG_8090.MOV";
     const ffmpeg = ffmpegRef.current;
     await ffmpeg.writeFile("input.mov", await fetchFile(videoURL));
+    console.log("running ffmpeg.exec");
     await ffmpeg.exec(["-f", "mov", "-i", "input.mov",  "-vf", "scale=-2:480", "output.mov"]);
+    console.log("running ffmpeg.readFile");
     const fileData = await ffmpeg.readFile('output.mov');
     const data = new Uint8Array(fileData as ArrayBuffer);
     if (videoRef.current) {
+      console.log("creating object URL");
       videoRef.current.src = URL.createObjectURL(
         new Blob([data.buffer], { type: 'video/mp4' })
       )
+    } else {
+      console.log("videoRef.current is empty");
     }
   };
 
