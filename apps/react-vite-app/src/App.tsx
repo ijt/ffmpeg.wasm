@@ -12,8 +12,13 @@ function App() {
     const baseURL = "https://unpkg.com/@ffmpeg/core-mt@0.12.4/dist/esm";
     const ffmpeg = ffmpegRef.current;
     ffmpeg.on("log", ({ message }) => {
+      console.log('message: ', message);
       if (messageRef.current) messageRef.current.innerHTML = message;
     });
+    
+    ffmpeg.on("progress", ({progress, time}) => {
+      console.log('progress: ', progress, 'time: ', time)
+    })
     // toBlobURL is used to bypass CORS issue, urls with the same
     // domain can be used directly.
     await ffmpeg.load({
