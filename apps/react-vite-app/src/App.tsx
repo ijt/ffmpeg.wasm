@@ -38,8 +38,8 @@ function App() {
   const transcode = async () => {
     const videoURL = "https://ffmpegwasm.netlify.app/video/video-15s.avi";
     const ffmpeg = ffmpegRef.current;
-    await ffmpeg.writeFile("input.avi", await fetchFile(videoURL));
-    await ffmpeg.exec(["-i", "input.avi", "output.mp4"]);
+    await ffmpeg.writeFile("input.mov", await fetchFile(videoURL));
+    await ffmpeg.exec(["-f", "mov", "-i", "input.mov",  "-vf", "scale=-2:480", "output.mov"]);
     const fileData = await ffmpeg.readFile('output.mp4');
     const data = new Uint8Array(fileData as ArrayBuffer);
     if (videoRef.current) {
